@@ -8,9 +8,8 @@ OBJECTS = $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SOURCES))
 all : $(OBJECTS)
 	g++ $(OBJECTS) -o application $(LIBS)
 
-$(OBJECTS) : $(SOURCES)
-	g++ -c $(SOURCES) -I $(INC)
-	mv *.o $(BUILD)
+$(BUILD)/%.o: $(SRC)/%.cpp
+	g++ -I $(INC) -c $< -o $@
 
 clean:
 	-rm application $(OBJECTS)
