@@ -5,7 +5,7 @@
 
 #include "SceneNode.h"
 
-class Entity : SceneNode
+class Entity : public SceneNode
 {
     private:
         sf::Vector2f velocity;
@@ -15,6 +15,9 @@ class Entity : SceneNode
         void setVelocity(float x, float y);
 
         sf::Vector2f getVelocity();
+
+    protected:
+        virtual void update(sf::Time dt);
 };
 
 #endif

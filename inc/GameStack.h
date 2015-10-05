@@ -13,7 +13,7 @@ class GameStack
 {
     private:
         std::stack<GameState*> stack; 
-        sf::RenderWindow * window;
+        sf::RenderWindow*  window;
 
     public:
         GameStack(sf::RenderWindow * _window);
@@ -25,7 +25,7 @@ class GameStack
         void pop();
         GameState * peek();
 
-        void update(float dt);
+        void update(sf::Time dt);
         void handleEvent(sf::Event event);
         void draw();
 

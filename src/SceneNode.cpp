@@ -38,6 +38,29 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const
         ptr->draw(target, states);
 }
 
+void SceneNode::update(sf::Time dt)
+{
+    updateCurrent(dt);
+    for(auto ptr : children)
+        ptr->update(dt);
+}
+
+sf::Transform SceneNode::getWorldTransform() const
+{
+    sf::Transform transform = sf::Transform::Identity;
+
+    transform *= getTransform();
+
+    for(SceneNode * node = this->parent; node != NULL; node = node->parent)
+        transform *= node->getTransform();
+
+    return transform;
+}
+
+void SceneNode::updateCurrent(sf::Time dt)
+{
+}
+
 void SceneNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const
 {
 }

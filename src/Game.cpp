@@ -22,7 +22,7 @@ void Game::run()
         while(timeSinceLastUpdate > timePerFrame)
         {
             timeSinceLastUpdate -= timePerFrame;
-            update(timePerFrame.asSeconds());
+            update(timePerFrame);
         }
         draw();
     }
@@ -40,7 +40,7 @@ void Game::handleEvents()
     }
 }
 
-void Game::update(float dt)
+void Game::update(sf::Time dt)
 {
     if(!stack.isExiting())
         stack.update(dt);

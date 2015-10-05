@@ -21,7 +21,7 @@ class Game
     private:
 
         void handleEvents();
-        void update(float dt);
+        void update(sf::Time dt);
         void draw();
 };
 

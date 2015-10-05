@@ -8,7 +8,7 @@ MainMenu::~MainMenu()
 {
 }
 
-void MainMenu::update(float dt)
+void MainMenu::update(sf::Time dt)
 {
 }
 

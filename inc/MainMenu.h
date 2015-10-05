@@ -11,9 +11,9 @@ class MainMenu : public GameState
         MainMenu(GameStack * stack);
         ~MainMenu();
 
-        virtual void update(float dt);
+        virtual void update(sf::Time dt);
         virtual void handleEvent(sf::Event event);
-        virtual void draw(sf::RenderWindow * window);
+        virtual void draw(sf::RenderWindow* window);
 };
 
 #endif

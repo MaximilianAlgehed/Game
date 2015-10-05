@@ -26,6 +26,7 @@ class Spaceship : public Entity
     protected:
 
         virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+        virtual void updateCurrent(sf::Time dt);
 };
 
 #endif

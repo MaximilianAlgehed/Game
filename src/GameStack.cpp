@@ -1,7 +1,7 @@
 #include "GameStack.h"
 #include "GameState.h"
 
-GameStack::GameStack(sf::RenderWindow * _window)
+GameStack::GameStack(sf::RenderWindow* _window)
 {
     window = _window;
 }
@@ -42,7 +42,7 @@ GameState * GameStack::peek()
     return this->stack.top();
 }
 
-void GameStack::update(float dt)
+void GameStack::update(sf::Time dt)
 {
     peek()->update(dt);
 }
