@@ -1,8 +1,9 @@
 #include "GameState.h"
 
-GameState::GameState(GameStack * stack)
+GameState::GameState(GameStack * stack) :
+    stack(stack),
+    window(stack->window)
 {
-    this->stack = stack;
 }
 
 GameState::~GameState()

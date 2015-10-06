@@ -4,6 +4,7 @@
 #include "ResourceHolder.h"
 #include <SFML/Graphics.hpp>
 
+//All different texture types
 namespace Textures
 {
     enum ID 
@@ -11,5 +12,7 @@ namespace Textures
         Destroyer
     };
 }
+
+typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
 
 #endif

@@ -3,6 +3,8 @@
 
 int main()
 {
+    //Initialize a new game
     Game game;
+    //Run the game
     game.run();
 }

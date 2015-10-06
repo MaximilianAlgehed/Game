@@ -10,8 +10,10 @@ OBJECTS = $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SOURCES))
 all : $(OBJECTS) $(HEADERS)
 	g++ $(OBJECTS) -o application $(LIBS)
 
-$(BUILD)/%.o: $(SRC)/%.cpp
+$(BUILD)/%.o: $(SRC)/%.cpp $(INC)/%.h
 	g++ -I $(INC) $(FLAGS) $< -o $@
+
+$(INC)/main.h:
 
 clean:
 	-rm application $(OBJECTS)
