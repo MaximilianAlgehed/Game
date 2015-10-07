@@ -13,6 +13,25 @@ SceneNode::~SceneNode()
         delete ptr;
 }
 
+//Is this node or one of it's children clicked?
+bool SceneNode::isClicked(SceneNode ** node, float x, float y)
+{
+    if(clickedCurrent(x, y))
+    {
+        *node = this;
+        return true;
+    }
+
+    for(auto ptr : children)
+    {
+        if(ptr->isClicked(node, x, y))
+            return true;
+    }
+
+    return false;
+}
+
+
 //attach a child to the node
 void SceneNode::attachChild(SceneNode* child)
 {

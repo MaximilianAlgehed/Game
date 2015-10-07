@@ -24,6 +24,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         sf::Transform getWorldTransform() const;
         //act on a command
         void onCommand(Command, sf::Time);
+        //Find if this object is clicked
+        bool isClicked(SceneNode **, float, float);
 
     private:
         //Parent and children
@@ -38,6 +40,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
         //The category of this node
         unsigned int category;
+        //check if this object is clicked
+        virtual bool clickedCurrent(float x, float y) {return false;}
 };
 
 #endif

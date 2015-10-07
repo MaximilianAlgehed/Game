@@ -37,6 +37,9 @@ class Spaceship : public Entity
         virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
         //Update the spaceship
         virtual void updateCurrent(sf::Time dt);
+        //Is this object clicked
+        virtual bool clickedCurrent(float x, float y);
+
 };
 
 #endif

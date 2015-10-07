@@ -41,3 +41,9 @@ void Spaceship::updateCurrent(sf::Time dt)
     //Update the underlying entity
     Entity::updateCurrent(dt);
 }
+
+//Check if this ship is clicked
+bool Spaceship::clickedCurrent(float x, float y)
+{
+    return sprite.getGlobalBounds().contains(x-getPosition().x, y-getPosition().y);
+}

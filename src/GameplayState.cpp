@@ -27,6 +27,27 @@ void GameplayState::handleInput()
 //Handle events
 void GameplayState::handleEvent(sf::Event event)
 {
+    if(event.type == sf::Event::MouseButtonPressed)
+    {
+        if(event.mouseButton.button == sf::Mouse::Left)
+        {
+            SceneNode * node;
+            if(sceneGraph.isClicked(&node, event.mouseButton.x, event.mouseButton.y))
+            {
+                Command command;
+                command.targetCategory = Command::Spaceship;
+                command.action = [=] (SceneNode * n, sf::Time dt)
+                {
+                    if(n != node)
+                        return;
+                    Entity * m = (Entity *)n;
+                    m->setVelocity(m->getVelocity()*(-1.f));
+                    m->rotate(180);
+                };
+                commandQueue.enqueue(command);
+            }
+        }
+    }
 }
 
 //Draw the scene
@@ -49,6 +70,12 @@ void GameplayState::buildScene()
     //Attach a spaceship to the scene for testing
     Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder);
     ship->setPosition(100, 100);
+    ship->rotate(90);
+    ship->setVelocity(30, 0);
+    sceneLayers[Foreground]->attachChild(ship);
+    //Attach a spaceship to the scene for testing
+    ship = new Spaceship(Spaceship::Destroyer, textureHolder);
+    ship->setPosition(100, 200);
     ship->rotate(90);
     ship->setVelocity(30, 0);
     sceneLayers[Foreground]->attachChild(ship);
