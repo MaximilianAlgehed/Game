@@ -5,6 +5,8 @@
 #include "GameState.h"
 #include "SceneNode.h"
 #include "Command.h"
+#include "Spaceship.h"
+#include "Player.h"
 
 #include <array>
 
@@ -29,6 +31,20 @@ class GameplayState : public GameState
         std::array<SceneNode*, LayerCount> sceneLayers;
         //Resource holder for texures
         TextureHolder textureHolder;
+
+        //The state
+        bool inWaiting;
+        //The time to play a scene
+        sf::Time runningTime;
+        const sf::Time maxRunningTime = sf::seconds(5);
+
+        //The player
+        Player player;
+
+        //The selected ship for moving
+        Spaceship * selectedShip;
+        //Is there a selected ship?
+        bool shipSelected;
 
         //Initialize the resources
         void loadResources();

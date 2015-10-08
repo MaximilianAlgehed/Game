@@ -8,10 +8,10 @@ SOURCES = $(shell echo $(SRC)/*.cpp)
 OBJECTS = $(patsubst $(SRC)/%.cpp, $(BUILD)/%.o, $(SOURCES))
 
 all : $(OBJECTS) $(HEADERS)
-	g++ $(OBJECTS) -o application $(LIBS)
+	g++ $(OBJECTS) -o application $(LIBS) -g
 
 $(BUILD)/%.o: $(SRC)/%.cpp $(INC)/%.h
-	g++ -I $(INC) $(FLAGS) $< -o $@
+	g++ -g -I $(INC) $(FLAGS) $< -o $@
 
 $(INC)/main.h:
 

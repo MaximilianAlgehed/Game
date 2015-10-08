@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include "Spaceship.h"
 #include "GameplayState.h"
 
 //Initialize the gameplay
-GameplayState::GameplayState(GameStack * stack) : GameState(stack)
+GameplayState::GameplayState(GameStack * stack) : GameState(stack), shipSelected(false), inWaiting(true), player(inWaiting, sceneGraph)
 {
     //Load resources
     loadResources(); 
@@ -15,37 +16,35 @@ void GameplayState::update(sf::Time dt)
 {
     while(!commandQueue.isEmpty())
         sceneGraph.onCommand(commandQueue.pop(), dt);
-    //Update the scene
-    sceneGraph.update(dt);
+    if(!inWaiting)
+    {
+        //Update the scene
+        sceneGraph.update(dt);
+        //Check the running time of this run
+        runningTime += dt;
+        if(runningTime >= maxRunningTime)
+        {
+            inWaiting = true;
+            runningTime = sf::Time::Zero;
+        }
+    }
 }
 
 //Handle persisten input
 void GameplayState::handleInput()
 {
+    player.handleInput();
 }
 
 //Handle events
 void GameplayState::handleEvent(sf::Event event)
 {
-    if(event.type == sf::Event::MouseButtonPressed)
+    player.handleEvent(event);
+    if(event.type == sf::Event::KeyPressed)
     {
-        if(event.mouseButton.button == sf::Mouse::Left)
+        if(event.key.code == sf::Keyboard::Space)
         {
-            SceneNode * node;
-            if(sceneGraph.isClicked(&node, event.mouseButton.x, event.mouseButton.y))
-            {
-                Command command;
-                command.targetCategory = Command::Spaceship;
-                command.action = [=] (SceneNode * n, sf::Time dt)
-                {
-                    if(n != node)
-                        return;
-                    Entity * m = (Entity *)n;
-                    m->setVelocity(m->getVelocity()*(-1.f));
-                    m->rotate(180);
-                };
-                commandQueue.enqueue(command);
-            }
+            inWaiting = false;
         }
     }
 }
@@ -70,12 +69,6 @@ void GameplayState::buildScene()
     //Attach a spaceship to the scene for testing
     Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder);
     ship->setPosition(100, 100);
-    ship->rotate(90);
-    ship->setVelocity(30, 0);
-    sceneLayers[Foreground]->attachChild(ship);
-    //Attach a spaceship to the scene for testing
-    ship = new Spaceship(Spaceship::Destroyer, textureHolder);
-    ship->setPosition(100, 200);
     ship->rotate(90);
     ship->setVelocity(30, 0);
     sceneLayers[Foreground]->attachChild(ship);
