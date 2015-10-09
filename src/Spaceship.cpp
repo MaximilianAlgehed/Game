@@ -45,5 +45,6 @@ void Spaceship::updateCurrent(sf::Time dt)
 //Check if this ship is clicked
 bool Spaceship::clickedCurrent(float x, float y)
 {
-    return sprite.getGlobalBounds().contains(x-getPosition().x, y-getPosition().y);
+    sf::Vector2f pos = getWorldPosition();
+    return sprite.getGlobalBounds().contains(x-pos.x, y-pos.y);
 }

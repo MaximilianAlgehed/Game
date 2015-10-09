@@ -22,6 +22,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         void update(sf::Time dt);
         //get the transform of this object relative to the world
         sf::Transform getWorldTransform() const;
+        //Get the global position of this object
+        sf::Vector2f getWorldPosition() const;
         //act on a command
         void onCommand(Command, sf::Time);
         //Find if this object is clicked

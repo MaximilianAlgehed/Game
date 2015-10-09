@@ -63,14 +63,15 @@ void GameplayState::buildScene()
     for(int i = 0; i < LayerCount; i++)
     {
         SceneNode * node = new SceneNode();
+        node->setPosition(0, 0);
         sceneGraph.attachChild(node);
         sceneLayers[i] = node;
     }
     //Attach a spaceship to the scene for testing
     Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder);
     ship->setPosition(100, 100);
-    ship->rotate(90);
     ship->setVelocity(30, 0);
+    ship->rotate(90);
     sceneLayers[Foreground]->attachChild(ship);
 }
 

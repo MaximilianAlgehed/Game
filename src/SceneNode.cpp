@@ -87,13 +87,18 @@ sf::Transform SceneNode::getWorldTransform() const
 {
     sf::Transform transform = sf::Transform::Identity;
 
-    transform *= getTransform();
-
+    transform = getTransform()*transform;
     //Get the transform by traversing the parents
     for(SceneNode * node = this->parent; node != NULL; node = node->parent)
-        transform *= node->getTransform();
+        transform = node->getTransform() * transform;
 
     return transform;
+}
+
+//Get the global position of this object
+sf::Vector2f SceneNode::getWorldPosition() const
+{
+    return getWorldTransform()*sf::Vector2f();
 }
 
 //Rect to a command

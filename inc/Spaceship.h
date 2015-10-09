@@ -25,6 +25,8 @@ class Spaceship : public Entity
         unsigned int id;
         //The id of the next spaceship
         static unsigned int maxId;
+        //The dv/dt of this spaceship
+        float deltaV;
 
     public:
 
