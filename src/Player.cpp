@@ -15,6 +15,8 @@ void Player::handleEvent(sf::Event event)
         if(event.key.code == sf::Keyboard::Escape)
         {
             shipSelected = false;
+            if(selectedShip)
+                selectedShip->clearTrajectory();
         }
     }
     if(event.type == sf::Event::MouseButtonPressed)
@@ -34,6 +36,12 @@ void Player::handleEvent(sf::Event event)
                     }
                 }
             }
+            else if(shipSelected && inWaiting)
+                selectedShip->calculateTrajectory(
+                        sf::Vector2f(event.mouseButton.x, event.mouseButton.y),
+                        sf::seconds(0.5),
+                        sf::seconds(5)
+                );
         }
     }
 }

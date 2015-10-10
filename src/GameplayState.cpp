@@ -45,6 +45,14 @@ void GameplayState::handleEvent(sf::Event event)
         if(event.key.code == sf::Keyboard::Space)
         {
             inWaiting = false;
+            Command cmd;
+            cmd.targetCategory = Command::Spaceship;
+            cmd.action = [] (SceneNode * node, sf::Time dt)
+            {
+                if(dynamic_cast<Spaceship*>(node))
+                    ((Spaceship*)node)->clearTrajectory();
+            };
+            commandQueue.enqueue(cmd);
         }
     }
 }
@@ -69,10 +77,17 @@ void GameplayState::buildScene()
     }
     //Attach a spaceship to the scene for testing
     Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder);
+    ship->setPosition(500, 100);
+    ship->setVelocity(-30, 0);
+    ship->rotate(-90);
+    sceneLayers[Foreground]->attachChild(ship);
+    //Attach a spaceship to the scene for testing
+    ship = new Spaceship(Spaceship::Destroyer, textureHolder);
     ship->setPosition(100, 100);
     ship->setVelocity(30, 0);
     ship->rotate(90);
     sceneLayers[Foreground]->attachChild(ship);
+
 }
 
 //Load up resources

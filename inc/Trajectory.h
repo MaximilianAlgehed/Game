@@ -10,13 +10,12 @@ class Trajectory : public SceneNode
 {
     private:
 
+        //Points in the trajectory, relative to it's origin
         std::vector<sf::Vector2f> points;
 
     public:
 
-        Trajectory();
-        ~Trajectory();
-
+        //Add a point to the trajectory
         void add(sf::Vector2f);
 
     protected:
