@@ -44,6 +44,7 @@ void GameplayState::handleEvent(sf::Event event)
     {
         if(event.key.code == sf::Keyboard::Space)
         {
+            player.deselectSpaceship();
             inWaiting = false;
             Command cmd;
             cmd.targetCategory = Command::Spaceship;
@@ -78,20 +79,18 @@ void GameplayState::buildScene()
     //Attach a spaceship to the scene for testing
     Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder);
     ship->setPosition(500, 100);
-    ship->setVelocity(-30, 0);
     ship->rotate(-90);
     sceneLayers[Foreground]->attachChild(ship);
     //Attach a spaceship to the scene for testing
-    ship = new Spaceship(Spaceship::Destroyer, textureHolder);
+    ship = new Spaceship(Spaceship::Hunter, textureHolder);
     ship->setPosition(100, 100);
-    ship->setVelocity(30, 0);
     ship->rotate(90);
     sceneLayers[Foreground]->attachChild(ship);
-
 }
 
 //Load up resources
 void GameplayState::loadResources()
 {
     textureHolder.load(Textures::Destroyer, "Media/Destroyer.png");
+    textureHolder.load(Textures::Hunter, "Media/Hunter.png");
 }

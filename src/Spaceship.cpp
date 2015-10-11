@@ -1,26 +1,43 @@
+#include <vector>
 #include <SFML/System.hpp>
+
 #include "Spaceship.h"
 #include "Textures.h"
 #include "ResourceHolder.h"
 
-//Get the texture type for the spacship type we have
-Textures::ID typeToTexture(Spaceship::Type type)
+//Initialize the spaceship data
+std::vector<Spaceship::SpaceshipData> initializeSpaceshipData()
 {
-    switch(type)
-    {
-        case Spaceship::Destroyer:
-            return Textures::Destroyer;
-    }
+    std::vector<Spaceship::SpaceshipData> data = std::vector<Spaceship::SpaceshipData>(Spaceship::TypeCount);
+
+    //The destroyer class spaceship
+    data[Spaceship::Destroyer].textureID = Textures::Destroyer;
+    data[Spaceship::Destroyer].deltaV = 10;
+    data[Spaceship::Destroyer].maxV = 40;
+
+    //The hunter class spaceship
+    data[Spaceship::Hunter].textureID = Textures::Hunter;
+    data[Spaceship::Hunter].deltaV = 30;
+    data[Spaceship::Hunter].maxV = 70;
+
+    return data;
 }
 
+//To keep a reference to the spaceship's data
+namespace
+{
+    const std::vector<Spaceship::SpaceshipData> spaceshipData = initializeSpaceshipData();
+}
+
+//For initialization
 unsigned int Spaceship::maxId = 0;
 
 //Initializ the spaceship
 Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textureHolder) :
     type(type), //The type, to define the behavior
-    sprite(textureHolder.get(typeToTexture(type))), //Initilize the sprite
-    deltaV(20),
-    maxV(40)
+    sprite(textureHolder.get(spaceshipData[type].textureID)), //Initilize the sprite
+    deltaV(spaceshipData[type].deltaV), //Initialize the deltaV
+    maxV(spaceshipData[type].maxV) //Initialize the maxV
 {
     trajectory = new Trajectory();
     attachChild(trajectory);
@@ -39,6 +56,7 @@ void Spaceship::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) c
     target.draw(sprite, states);
 }
 
+//Get the absolute of a float
 float abs(float f)
 {
     if(f > 0)
@@ -46,6 +64,7 @@ float abs(float f)
     else return -f;
 }
 
+//Normalize a vector
 sf::Vector2f normalize(sf::Vector2f v)
 {
     float size = sqrt(v.x*v.x+v.y*v.y);
@@ -58,6 +77,7 @@ sf::Vector2f normalize(sf::Vector2f v)
 //Update the spaceship
 void Spaceship::updateCurrent(sf::Time dt)
 {
+    //If we don't have a target, stay where we are
     if(target == sf::Vector2f(0, 0))
         target = getWorldPosition();
     sf::Vector2f velocity = getVelocity();
@@ -65,7 +85,8 @@ void Spaceship::updateCurrent(sf::Time dt)
     if(sqrt(velocity.x*velocity.x+velocity.y*velocity.y) > maxV)
             velocity = normalize(velocity)*maxV;
     setVelocity(velocity);
-    setRotation(180-atan2(velocity.x, velocity.y)*180/3.1415);
+    if(velocity.x != 0 || velocity.y != 0)
+        setRotation(180-atan2(velocity.x, velocity.y)*180/3.1415);
     //Update the underlying entity
     Entity::updateCurrent(dt);
 }

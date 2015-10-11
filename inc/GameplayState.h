@@ -36,7 +36,7 @@ class GameplayState : public GameState
         bool inWaiting;
         //The time to play a scene
         sf::Time runningTime;
-        const sf::Time maxRunningTime = sf::seconds(5);
+        const sf::Time maxRunningTime = sf::seconds(3);
 
         //The player
         Player player;

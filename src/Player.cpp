@@ -1,9 +1,17 @@
 #include "Player.h"
 
-Player::Player(bool & inWaiting, SceneNode & sceneGraph) : inWaiting(inWaiting), sceneGraph(sceneGraph), shipSelected(false)
+//Initialize the player
+Player::Player(bool & inWaiting, SceneNode & sceneGraph) :
+    inWaiting(inWaiting),
+    sceneGraph(sceneGraph),
+    shipSelected(false)
 {
-    this->inWaiting = inWaiting;
-    this->sceneGraph = sceneGraph;
+}
+
+//Deselect the spaceship
+void Player::deselectSpaceship()
+{
+    shipSelected = false;
 }
 
 //Handle events from the window
@@ -39,8 +47,8 @@ void Player::handleEvent(sf::Event event)
             else if(shipSelected && inWaiting)
                 selectedShip->calculateTrajectory(
                         sf::Vector2f(event.mouseButton.x, event.mouseButton.y),
-                        sf::seconds(0.5),
-                        sf::seconds(5)
+                        sf::seconds(0.1),
+                        sf::seconds(3)
                 );
         }
     }

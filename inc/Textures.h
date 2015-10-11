@@ -9,7 +9,8 @@ namespace Textures
 {
     enum ID 
     {
-        Destroyer
+        Destroyer,
+        Hunter
     };
 }
 

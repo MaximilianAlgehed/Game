@@ -15,7 +15,18 @@ class Spaceship : public Entity
     public:
 
         //Different types of spaceships
-        enum Type {Destroyer};
+        enum Type {
+            Destroyer,
+            Hunter,
+            TypeCount
+        };
+
+        //Spaceship data
+        struct SpaceshipData
+        {
+            Textures::ID textureID;
+            float deltaV, maxV;
+        };
 
     //Bookeeping variables for the spacship
     //that are shared among all spaceship
