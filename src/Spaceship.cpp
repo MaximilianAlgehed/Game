@@ -37,8 +37,6 @@ void Spaceship::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) c
 {
     //Draw the main body sprite
     target.draw(sprite, states);
-    if(trajectory)
-        target.draw(*trajectory, states);
 }
 
 float abs(float f)
@@ -60,6 +58,8 @@ sf::Vector2f normalize(sf::Vector2f v)
 //Update the spaceship
 void Spaceship::updateCurrent(sf::Time dt)
 {
+    if(target == sf::Vector2f(0, 0))
+        target = getWorldPosition();
     sf::Vector2f velocity = getVelocity();
     velocity += normalize((target-getWorldPosition()))*deltaV*dt.asSeconds();
     if(sqrt(velocity.x*velocity.x+velocity.y*velocity.y) > maxV)
