@@ -17,6 +17,8 @@ class Spaceship : public Entity
         //Different types of spaceships
         enum Type {Destroyer};
 
+    //Bookeeping variables for the spacship
+    //that are shared among all spaceship
     private:
     
         //The type and sprite for this spaceship
@@ -26,14 +28,18 @@ class Spaceship : public Entity
         unsigned int id;
         //The id of the next spaceship
         static unsigned int maxId;
-        //The dv/dt of this spaceship
-        float deltaV;
-        //the maximum velocity of this spaceship
-        float maxV;
         //The target this spaceship is going for
         sf::Vector2f target;
         //The trajectory of this spaceship
         Trajectory * trajectory;
+
+    //Stat's that all spaceship have in common
+    protected:
+
+        //The dv/dt of this spaceship
+        float deltaV;
+        //the maximum velocity of this spaceship
+        float maxV;
 
     public:
 
@@ -43,6 +49,8 @@ class Spaceship : public Entity
         void calculateTrajectory(sf::Vector2f target, sf::Time dt, sf::Time maxTime);
         //Stop displaying the trajectory
         void clearTrajectory(); 
+
+    //SceneNode methods
     protected:
 
         //Draw the spaceship
