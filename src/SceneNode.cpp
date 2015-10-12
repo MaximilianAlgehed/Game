@@ -69,7 +69,10 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const
     drawCurrent(target, states);
     //Draw the children
     for(auto ptr : children)
-        ptr->draw(target, states);
+    {
+        if(ptr)
+            ptr->draw(target, states);
+    }
 }
 
 //Update the node
@@ -78,8 +81,11 @@ void SceneNode::update(sf::Time dt)
     //Update the curent node
     updateCurrent(dt);
     //Update all children
-    for(auto ptr : children)
+    for(int i = 0; i < children.size(); i++)
+    {
+        SceneNode * ptr = children[i];
         ptr->update(dt);
+    }
 }
 
 //Get the transform of this node relative to the world
@@ -101,6 +107,12 @@ sf::Vector2f SceneNode::getWorldPosition() const
     return getWorldTransform()*sf::Vector2f();
 }
 
+//Get the world rotation of this object
+float SceneNode::getWorldRotation() const
+{
+    return getRotation() + (parent ? parent->getWorldRotation() : 0);
+}
+
 //Rect to a command
 void SceneNode::onCommand(Command command, sf::Time dt)
 {
@@ -108,7 +120,10 @@ void SceneNode::onCommand(Command command, sf::Time dt)
         command.action(this, dt);
 
     for(auto ptr : children)
-        ptr->onCommand(command, dt);
+    {
+        if(ptr)
+            ptr->onCommand(command, dt);
+    }
 }
 
 //Update function dummy 

@@ -1,5 +1,10 @@
 #include "Entity.h"
 
+Entity::Entity() :
+    team(0)
+{
+}
+
 //Setter
 void Entity::setVelocity(float x, float y)
 {
@@ -23,4 +28,10 @@ sf::Vector2f Entity::getVelocity()
 void Entity::updateCurrent(sf::Time dt)
 {
     move(velocity*dt.asSeconds());
+}
+
+//Set the team of this entity
+void Entity::setTeam(unsigned int team)
+{
+    this->team = team;
 }

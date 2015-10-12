@@ -13,6 +13,14 @@ std::vector<Projectile::ProjectileData> initializeProjectileData()
     data[Projectile::Laser].speed = 500;
     data[Projectile::Laser].damage = 1;
     data[Projectile::Laser].timeout = sf::seconds(10);
+    data[Projectile::Laser].scale = sf::Vector2f(0.1, 0.1);
+
+    //The laser cannon
+    data[Projectile::LaserCannon].textureID = Textures::Laser;
+    data[Projectile::LaserCannon].speed = 250;
+    data[Projectile::LaserCannon].damage = 10;
+    data[Projectile::LaserCannon].timeout = sf::seconds(10);
+    data[Projectile::LaserCannon].scale = sf::Vector2f(0.3, 0.3);
 
     return data;
 }
@@ -31,14 +39,17 @@ Projectile::Projectile(Type type, TextureHolder& textureHolder) :
     speed(projectileData[type].speed), //The speed
     damage(projectileData[type].damage) //the damage
 {
-    setScale(sf::Vector2f(0.1, 0.1));
+    setScale(projectileData[type].scale);
 }
 
 //Update the projectile
 void Projectile::updateCurrent(sf::Time dt)
 {
     Entity::updateCurrent(dt);
-    timeout -= dt;
+    if(timeout > dt)
+        timeout -= dt;
+    else
+        timeout = sf::Time::Zero;
 }
 
 //Set the direction pof a projectile

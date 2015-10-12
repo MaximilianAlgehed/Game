@@ -13,6 +13,7 @@ class Projectile : public Entity
         enum Type
         {
             Laser,
+            LaserCannon,
             TypeCount
         };
 
@@ -21,6 +22,7 @@ class Projectile : public Entity
             float damage, speed;
             sf::Time timeout;
             Textures::ID textureID;
+            sf::Vector2f scale;
         };
 
         Projectile(Type, TextureHolder&);

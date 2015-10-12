@@ -7,6 +7,7 @@
 #include "Command.h"
 #include "Spaceship.h"
 #include "Player.h"
+#include "Weapon.h"
 
 #include <array>
 
@@ -53,6 +54,10 @@ class GameplayState : public GameState
         //Internal command queue
         CommandQueue commandQueue;
 
+        //the spaceships that are within the 
+        void collectSpaceships();
+        void targetWeapons();
+
     public:
         //Initialize the state
         GameplayState(GameStack * stack);
@@ -62,6 +67,8 @@ class GameplayState : public GameState
         virtual void handleEvent(sf::Event event);
         virtual void draw();
         virtual void handleInput();
+
+        std::vector<Spaceship*> teamOneSpaceships, teamTwoSpaceships;
 };
 
 #endif

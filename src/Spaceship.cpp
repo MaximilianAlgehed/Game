@@ -2,6 +2,7 @@
 #include <SFML/System.hpp>
 
 #include "Spaceship.h"
+#include "Weapon.h"
 #include "Textures.h"
 #include "ResourceHolder.h"
 
@@ -33,7 +34,7 @@ namespace
 unsigned int Spaceship::maxId = 0;
 
 //Initializ the spaceship
-Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textureHolder, SceneNode * foreground) :
+Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textureHolder, SceneNode * foreground, unsigned int team) :
     type(type), //The type, to define the behavior
     sprite(textureHolder.get(spaceshipData[type].textureID)), //Initilize the sprite
     deltaV(spaceshipData[type].deltaV), //Initialize the deltaV
@@ -48,6 +49,21 @@ Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textu
     sprite.setOrigin(bounds.width/2.f, bounds.height/2.f);
     //Get the ID
     id = maxId++;
+    setTeam(team);
+    Weapon * weapon = new Weapon(Weapon::LaserBlaster, foreground, textureHolder);
+    weapon->setTeam(team);
+    attachChild(weapon);
+    if(type == Destroyer)
+    {
+        weapon = new Weapon(Weapon::LaserCannon, foreground, textureHolder);
+        weapon->setTeam(team);
+        weapon->setRotation(90);
+        attachChild(weapon);
+        weapon = new Weapon(Weapon::LaserCannon, foreground, textureHolder);
+        weapon->setTeam(team);
+        weapon->setRotation(270);
+        attachChild(weapon);
+    }
 }
 
 //Draw the spaceship
@@ -78,6 +94,7 @@ sf::Vector2f normalize(sf::Vector2f v)
 //Update the spaceship
 void Spaceship::updateCurrent(sf::Time dt)
 {
+    Entity::updateCurrent(dt);
     //If we don't have a target, stay where we are
     if(target == sf::Vector2f(0, 0))
         target = getWorldPosition();
@@ -87,9 +104,12 @@ void Spaceship::updateCurrent(sf::Time dt)
             velocity = normalize(velocity)*maxV;
     setVelocity(velocity);
     if(velocity.x != 0 || velocity.y != 0)
-        setRotation(180-atan2(velocity.x, velocity.y)*180/3.1415);
-    //Update the underlying entity
-    Entity::updateCurrent(dt);
+    {
+        float rotation = atan2(velocity.y, velocity.x)*180/3.1415+90;
+        while(rotation > 360)
+            rotation -= 360;
+        setRotation(rotation);
+    }
 }
 
 //Check if this ship is clicked

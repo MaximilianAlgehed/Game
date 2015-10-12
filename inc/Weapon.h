@@ -4,15 +4,19 @@
 #include <SFML/System.hpp>
 
 #include "SceneNode.h"
+#include "Entity.h"
 #include "Projectile.h"
+#include "Textures.h"
 
-class Weapon : public SceneNode
+//A Weapon class
+class Weapon : public Entity
 {
     public:
         //The different types of weapons
         enum Type
         {
             LaserBlaster,
+            LaserCannon,
             TypeCount
         };
 
@@ -25,10 +29,13 @@ class Weapon : public SceneNode
         };
 
         //Constructor
-        explicit Weapon(Type, SceneNode*);
+        explicit Weapon(Type, SceneNode*, TextureHolder&);
 
-        //If possible, fire the wepon at a global position
-        void fire(sf::Vector2f);
+        //Is the target position within the angle of reach of this weapon
+        bool isTargetable(sf::Vector2f);
+
+        //Set the target for this weapon
+        void setTarget(sf::Vector2f);
 
     private:
         //The type of this weapon
@@ -41,6 +48,10 @@ class Weapon : public SceneNode
         sf::Time timeout, maxTimeout;
         //The projectile type
         Projectile::Type projectileType;
+        //The target to fire at
+        sf::Vector2f target;
+        //The resources
+        TextureHolder & textures;
 
     protected:
         //Update the weapon

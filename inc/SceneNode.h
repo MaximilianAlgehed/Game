@@ -24,6 +24,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         sf::Transform getWorldTransform() const;
         //Get the global position of this object
         sf::Vector2f getWorldPosition() const;
+        //Get the global rotation of this object
+        float getWorldRotation() const;
         //act on a command
         void onCommand(Command, sf::Time);
         //Find if this object is clicked
@@ -34,7 +36,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         SceneNode* parent;
         std::vector<SceneNode*> children;
         //Draw the node and all it's children
-        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+        void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
     protected:
         //Update and draw the current node

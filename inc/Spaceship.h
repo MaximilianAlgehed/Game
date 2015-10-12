@@ -57,7 +57,7 @@ class Spaceship : public Entity
     public:
 
         //Only possible constructor
-        explicit Spaceship(Type, ResourceHolder<sf::Texture, Textures::ID>&, SceneNode*);
+        explicit Spaceship(Type, ResourceHolder<sf::Texture, Textures::ID>&, SceneNode*, unsigned int team);
         //Calculate trajectory from the position of this spaceship to the target, globally
         void calculateTrajectory(sf::Vector2f target, sf::Time dt, sf::Time maxTime);
         //Stop displaying the trajectory

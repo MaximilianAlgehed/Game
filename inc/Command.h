@@ -2,7 +2,7 @@
 #define COMMAND_H
 
 #include <functional>
-#include <queue>
+#include <list>
 
 class SceneNode;
 
@@ -16,7 +16,8 @@ class Command
         {
             None = 0,
             Spaceship = 1,
-            Projectile = 2
+            Projectile = 2,
+            Weapon = 4
         };
 
         //The action to be performed on the SceneNode matching target
@@ -30,12 +31,12 @@ class CommandQueue
 {
     private:
         //It's just an api for this queue to be honest
-        std::queue<Command> queue;
+        std::list<Command> queue;
         
     public:
         //enqueu command
-        void enqueue(Command command) {queue.push(command);}
-        Command pop() {Command command = queue.front(); queue.pop(); return command;}
+        void enqueue(Command command) {queue.push_back(command);}
+        Command pop() {Command command = queue.front(); queue.pop_front(); return command;}
         bool isEmpty() {return queue.size() == 0;}
 };
 
