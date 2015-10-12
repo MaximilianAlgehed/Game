@@ -116,6 +116,7 @@ void Spaceship::calculateTrajectory(sf::Vector2f globalTarget, sf::Time dt, sf::
     sf::Time accumulatedTime = sf::Time::Zero;
     clearTrajectory(); 
     trajectory->add(getWorldPosition());
+    //Integrate the trajectory
     while(accumulatedTime < maxTime)
     {
         velocity += normalize((target-position))*deltaV*dt.asSeconds();
