@@ -35,7 +35,7 @@ class Projectile : public Entity
 
     protected:
         virtual void updateCurrent(sf::Time dt);
-        virtual void drawCurrent(sf::RenderTarget&, sf::RenderStates);
+        virtual void drawCurrent(sf::RenderTarget&, sf::RenderStates) const;
 };
 
 #endif

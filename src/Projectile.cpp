@@ -10,7 +10,7 @@ std::vector<Projectile::ProjectileData> initializeProjectileData()
 
     //The laser projectile
     data[Projectile::Laser].textureID = Textures::Laser;
-    data[Projectile::Laser].speed = 60;
+    data[Projectile::Laser].speed = 500;
     data[Projectile::Laser].damage = 1;
     data[Projectile::Laser].timeout = sf::seconds(10);
 
@@ -31,6 +31,7 @@ Projectile::Projectile(Type type, TextureHolder& textureHolder) :
     speed(projectileData[type].speed), //The speed
     damage(projectileData[type].damage) //the damage
 {
+    setScale(sf::Vector2f(0.1, 0.1));
 }
 
 //Update the projectile
@@ -44,11 +45,11 @@ void Projectile::updateCurrent(sf::Time dt)
 void Projectile::setDirection(sf::Vector2f dir)
 {
     setVelocity(normalize(dir)*speed);
-    setRotation(180 - atan2(getVelocity().x, getVelocity().y)*180/3.1415);
+    setRotation(90-atan2(getVelocity().x, getVelocity().y)*180/3.1415);
 }
 
-//Draw the current projectile
-void Projectile::drawCurrent(sf::RenderTarget & target, sf::RenderStates states)
+//Draw the projectile
+void Projectile::drawCurrent(sf::RenderTarget & target, sf::RenderStates states) const
 {
     target.draw(sprite, states);
 }

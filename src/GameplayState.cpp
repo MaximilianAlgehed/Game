@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "Spaceship.h"
 #include "GameplayState.h"
+#include "Projectile.h"
 
 //Initialize the gameplay
 GameplayState::GameplayState(GameStack * stack) : GameState(stack), shipSelected(false), inWaiting(true), player(inWaiting, sceneGraph)
@@ -86,6 +87,10 @@ void GameplayState::buildScene()
     ship->setPosition(100, 100);
     ship->rotate(90);
     sceneLayers[Foreground]->attachChild(ship);
+    Projectile * projectile = new Projectile(Projectile::Laser, textureHolder);
+    projectile->setPosition(100, 100);
+    projectile->setDirection(sf::Vector2f(2, 3));
+    sceneLayers[Foreground]->attachChild(projectile);
 }
 
 //Load up resources
@@ -93,4 +98,5 @@ void GameplayState::loadResources()
 {
     textureHolder.load(Textures::Destroyer, "Media/Destroyer.png");
     textureHolder.load(Textures::Hunter, "Media/Hunter.png");
+    textureHolder.load(Textures::Laser, "Media/Laser.png");
 }
