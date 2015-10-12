@@ -15,7 +15,8 @@ class Command
         enum TargetCategory
         {
             None = 0,
-            Spaceship = 1
+            Spaceship = 1,
+            Projectile = 2
         };
 
         //The action to be performed on the SceneNode matching target

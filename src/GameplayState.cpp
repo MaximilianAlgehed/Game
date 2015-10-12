@@ -77,12 +77,12 @@ void GameplayState::buildScene()
         sceneLayers[i] = node;
     }
     //Attach a spaceship to the scene for testing
-    Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder);
+    Spaceship * ship = new Spaceship(Spaceship::Destroyer, textureHolder, sceneLayers[Foreground]);
     ship->setPosition(500, 100);
     ship->rotate(-90);
     sceneLayers[Foreground]->attachChild(ship);
     //Attach a spaceship to the scene for testing
-    ship = new Spaceship(Spaceship::Hunter, textureHolder);
+    ship = new Spaceship(Spaceship::Hunter, textureHolder, sceneLayers[Foreground]);
     ship->setPosition(100, 100);
     ship->rotate(90);
     sceneLayers[Foreground]->attachChild(ship);

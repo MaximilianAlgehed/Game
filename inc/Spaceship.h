@@ -43,6 +43,8 @@ class Spaceship : public Entity
         sf::Vector2f target;
         //The trajectory of this spaceship
         Trajectory * trajectory;
+        //The scene node on which to attach projectiles
+        SceneNode * foregroundLayer;
 
     //Stat's that all spaceship have in common
     protected:
@@ -55,7 +57,7 @@ class Spaceship : public Entity
     public:
 
         //Only possible constructor
-        explicit Spaceship(Type, ResourceHolder<sf::Texture, Textures::ID>&);
+        explicit Spaceship(Type, ResourceHolder<sf::Texture, Textures::ID>&, SceneNode*);
         //Calculate trajectory from the position of this spaceship to the target, globally
         void calculateTrajectory(sf::Vector2f target, sf::Time dt, sf::Time maxTime);
         //Stop displaying the trajectory

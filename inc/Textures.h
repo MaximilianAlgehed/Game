@@ -10,7 +10,8 @@ namespace Textures
     enum ID 
     {
         Destroyer,
-        Hunter
+        Hunter,
+        Laser
     };
 }
 

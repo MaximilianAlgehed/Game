@@ -17,7 +17,7 @@ std::vector<Spaceship::SpaceshipData> initializeSpaceshipData()
 
     //The hunter class spaceship
     data[Spaceship::Hunter].textureID = Textures::Hunter;
-    data[Spaceship::Hunter].deltaV = 30;
+    data[Spaceship::Hunter].deltaV = 100;
     data[Spaceship::Hunter].maxV = 70;
 
     return data;
@@ -33,11 +33,12 @@ namespace
 unsigned int Spaceship::maxId = 0;
 
 //Initializ the spaceship
-Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textureHolder) :
+Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textureHolder, SceneNode * foreground) :
     type(type), //The type, to define the behavior
     sprite(textureHolder.get(spaceshipData[type].textureID)), //Initilize the sprite
     deltaV(spaceshipData[type].deltaV), //Initialize the deltaV
-    maxV(spaceshipData[type].maxV) //Initialize the maxV
+    maxV(spaceshipData[type].maxV), //Initialize the maxV
+    foregroundLayer(foreground)
 {
     trajectory = new Trajectory();
     attachChild(trajectory);
