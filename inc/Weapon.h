@@ -24,8 +24,17 @@ class Weapon : public Entity
         struct WeaponData
         {
             sf::Time maxTimeout;
+            sf::Time timeoutSpread;
             float spreadAngle, reachAngle;
             Projectile::Type projectileType;
+        };
+
+        //A prototype data struct
+        struct WeaponPrototype
+        {
+            Type type;
+            float rotation;
+            sf::Vector2f position;
         };
 
         //Constructor
@@ -52,6 +61,8 @@ class Weapon : public Entity
         sf::Vector2f target;
         //The resources
         TextureHolder & textures;
+        //The spread in the timeout times
+        sf::Time timeoutSpread;
 
     protected:
         //Update the weapon

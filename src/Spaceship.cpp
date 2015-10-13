@@ -15,11 +15,26 @@ std::vector<Spaceship::SpaceshipData> initializeSpaceshipData()
     data[Spaceship::Destroyer].textureID = Textures::Destroyer;
     data[Spaceship::Destroyer].deltaV = 10;
     data[Spaceship::Destroyer].maxV = 40;
+    //Initialize the weapon prototypes
+    data[Spaceship::Destroyer].weapons = std::vector<Weapon::WeaponPrototype>(2);
+    data[Spaceship::Destroyer].weapons[0].type = Weapon::LaserCannon;
+    data[Spaceship::Destroyer].weapons[0].rotation = 90;
+    data[Spaceship::Destroyer].weapons[0].position = sf::Vector2f(0, 0);
+    data[Spaceship::Destroyer].weapons[1].type = Weapon::LaserCannon;
+    data[Spaceship::Destroyer].weapons[1].rotation = -90;
+    data[Spaceship::Destroyer].weapons[1].position = sf::Vector2f(0, 0);
+
 
     //The hunter class spaceship
     data[Spaceship::Hunter].textureID = Textures::Hunter;
     data[Spaceship::Hunter].deltaV = 100;
     data[Spaceship::Hunter].maxV = 70;
+    //Initialize the weapon prototypes
+    data[Spaceship::Hunter].weapons = std::vector<Weapon::WeaponPrototype>(2);
+    data[Spaceship::Hunter].weapons[0].type = Weapon::LaserBlaster;
+    data[Spaceship::Hunter].weapons[0].rotation = 0;
+    data[Spaceship::Hunter].weapons[0].position = sf::Vector2f(0, 0);
+    data[Spaceship::Hunter].weapons[1] = data[Spaceship::Hunter].weapons[0];
 
     return data;
 }
@@ -50,18 +65,13 @@ Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textu
     //Get the ID
     id = maxId++;
     setTeam(team);
-    Weapon * weapon = new Weapon(Weapon::LaserBlaster, foreground, textureHolder);
-    weapon->setTeam(team);
-    attachChild(weapon);
-    if(type == Destroyer)
+    //Add the weapons
+    for(Weapon::WeaponPrototype prototype : spaceshipData[type].weapons)
     {
-        weapon = new Weapon(Weapon::LaserCannon, foreground, textureHolder);
+        Weapon * weapon = new Weapon(prototype.type, foreground, textureHolder);
+        weapon->setRotation(prototype.rotation);
+        weapon->setPosition(prototype.position);
         weapon->setTeam(team);
-        weapon->setRotation(90);
-        attachChild(weapon);
-        weapon = new Weapon(Weapon::LaserCannon, foreground, textureHolder);
-        weapon->setTeam(team);
-        weapon->setRotation(270);
         attachChild(weapon);
     }
 }

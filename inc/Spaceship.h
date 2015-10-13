@@ -8,6 +8,7 @@
 #include "ResourceHolder.h"
 #include "Textures.h"
 #include "Trajectory.h"
+#include "Weapon.h"
 
 //Represent a spaceship entity
 class Spaceship : public Entity
@@ -26,6 +27,7 @@ class Spaceship : public Entity
         {
             Textures::ID textureID;
             float deltaV, maxV;
+            std::vector<Weapon::WeaponPrototype> weapons;
         };
 
     //Bookeeping variables for the spacship

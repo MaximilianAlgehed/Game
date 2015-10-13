@@ -14,12 +14,14 @@ std::vector<Weapon::WeaponData> initializeWeaponData()
     data[Weapon::LaserBlaster].spreadAngle = 10;
     data[Weapon::LaserBlaster].reachAngle = 45;
     data[Weapon::LaserBlaster].maxTimeout = sf::seconds(0.2);
+    data[Weapon::LaserBlaster].timeoutSpread = sf::seconds(0.05);
 
     //The cannon class weapon
     data[Weapon::LaserCannon].projectileType = Projectile::LaserCannon;
     data[Weapon::LaserCannon].spreadAngle = 15;
     data[Weapon::LaserCannon].reachAngle = 50;
     data[Weapon::LaserCannon].maxTimeout = sf::seconds(0.7);
+    data[Weapon::LaserCannon].timeoutSpread = sf::seconds(0);
 
     return data;
 }
@@ -39,7 +41,8 @@ Weapon::Weapon(Type type, SceneNode * foregroundLayer, TextureHolder& textures) 
     projectileType(weaponData[type].projectileType),
     maxTimeout(weaponData[type].maxTimeout),
     timeout(sf::Time::Zero),
-    textures(textures)
+    textures(textures),
+    timeoutSpread(weaponData[type].timeoutSpread)
 {
     category = Command::Weapon;
 }
@@ -57,6 +60,7 @@ void Weapon::updateCurrent(sf::Time dt)
         if(target != sf::Vector2f(0, 0))
         {
             timeout = maxTimeout;
+            timeout += sf::seconds((float(rand())/float(RAND_MAX))*timeoutSpread.asSeconds())-sf::seconds(timeoutSpread.asSeconds()*0.5);
             Projectile * projectile = new Projectile(projectileType, textures);
             projectile->setPosition(getWorldPosition());
             projectile->setRotation(getWorldRotation());

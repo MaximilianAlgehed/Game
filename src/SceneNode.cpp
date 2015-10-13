@@ -9,7 +9,7 @@ SceneNode::SceneNode() : parent(NULL), category(Command::None)
 SceneNode::~SceneNode()
 {
     //Delete all children
-    for(auto ptr : children)
+    for(SceneNode * ptr : children)
         delete ptr;
 }
 
