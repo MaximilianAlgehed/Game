@@ -53,6 +53,8 @@ class Spaceship : public Entity
         float deltaV;
         //the maximum velocity of this spaceship
         float maxV;
+        //The break distance of the spaceship
+        float breakDistance;
 
     public:
 

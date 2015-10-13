@@ -17,6 +17,8 @@ class Trajectory : public SceneNode
 
         //Add a point to the trajectory
         void add(sf::Vector2f);
+        //Clear the trajecory
+        void clear();
 
     protected:
 

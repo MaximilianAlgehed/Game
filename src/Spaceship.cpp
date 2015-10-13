@@ -121,9 +121,7 @@ bool Spaceship::clickedCurrent(float x, float y)
 
 void Spaceship::clearTrajectory()
 {
-    delete detachChild(*trajectory);
-    trajectory = new Trajectory();
-    attachChild(trajectory);
+    trajectory->clear();
 }
 
 //Calculate the trajectory from the positon of this spaceship to the global point
@@ -139,6 +137,7 @@ void Spaceship::calculateTrajectory(sf::Vector2f globalTarget, sf::Time dt, sf::
     //Integrate the trajectory
     while(accumulatedTime < maxTime)
     {
+        sf::Vector2f diff = target-position;
         velocity += normalize((target-position))*deltaV*dt.asSeconds();
         if(sqrt(velocity.x*velocity.x+velocity.y*velocity.y) > maxV)
             velocity = normalize(velocity)*maxV;

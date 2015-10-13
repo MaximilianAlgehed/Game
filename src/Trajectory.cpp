@@ -19,3 +19,8 @@ void Trajectory::drawCurrent(sf::RenderTarget & target, sf::RenderStates states)
         target.draw(line, 2, sf::Lines);
     }
 }
+
+void Trajectory::clear()
+{
+    points.clear();
+}
