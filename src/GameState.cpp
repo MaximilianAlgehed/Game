@@ -2,7 +2,8 @@
 
 GameState::GameState(GameStack * stack) :
     stack(stack),
-    window(stack->window)
+    window(stack->window),
+    view(window->getView())
 {
 }
 

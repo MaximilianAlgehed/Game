@@ -10,6 +10,7 @@ class GameState
         //Reference to the stack
         GameStack * stack;
         sf::RenderWindow * window;
+        sf::View view;
 
     public:
         //Constructor destructor pair

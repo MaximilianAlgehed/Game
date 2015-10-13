@@ -65,6 +65,7 @@ void GameplayState::handleEvent(sf::Event event)
 void GameplayState::draw()
 {
     //Draw the scene
+    window->setView(view);
     window->draw(sceneGraph);
 }
 
