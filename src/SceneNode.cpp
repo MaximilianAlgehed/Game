@@ -135,3 +135,9 @@ void SceneNode::updateCurrent(sf::Time dt)
 void SceneNode::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const
 {
 }
+
+//Remove function dummy
+bool SceneNode::toRemove()
+{
+    return false;
+}

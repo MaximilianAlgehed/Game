@@ -30,6 +30,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         void onCommand(Command, sf::Time);
         //Find if this object is clicked
         bool isClicked(SceneNode **, float, float);
+        //find out if this node is due to be removed
+        virtual bool toRemove();
 
     private:
         //Parent and children
