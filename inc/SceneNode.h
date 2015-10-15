@@ -32,6 +32,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         bool isClicked(SceneNode **, float, float);
         //find out if this node is due to be removed
         virtual bool toRemove();
+        //Remove all objects that need to be removed
+        void removeNodes();
 
     private:
         //Parent and children

@@ -141,3 +141,20 @@ bool SceneNode::toRemove()
 {
     return false;
 }
+
+//Remove all nodes that need to go
+void SceneNode::removeNodes()
+{
+    for(int i = 0; i < children.size(); i++)
+    {
+        SceneNode * ptr = children[i];
+        if(ptr->toRemove())
+        {
+            delete ptr;
+            children.erase(children.begin()+i);
+            i--;
+        }
+    }
+    for(auto ptr : children)
+        ptr->removeNodes();
+}

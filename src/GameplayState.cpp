@@ -31,6 +31,7 @@ void GameplayState::update(sf::Time dt)
             runningTime = sf::Time::Zero;
         }
     }
+    sceneGraph.removeNodes();
 }
 
 //Handle persisten input

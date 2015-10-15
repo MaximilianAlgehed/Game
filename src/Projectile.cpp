@@ -12,14 +12,14 @@ std::vector<Projectile::ProjectileData> initializeProjectileData()
     data[Projectile::Laser].textureID = Textures::Laser;
     data[Projectile::Laser].speed = 500;
     data[Projectile::Laser].damage = 1;
-    data[Projectile::Laser].timeout = sf::seconds(10);
+    data[Projectile::Laser].timeout = sf::seconds(1);
     data[Projectile::Laser].scale = sf::Vector2f(0.1, 0.1);
 
     //The laser cannon
     data[Projectile::LaserCannon].textureID = Textures::Laser;
     data[Projectile::LaserCannon].speed = 250;
     data[Projectile::LaserCannon].damage = 10;
-    data[Projectile::LaserCannon].timeout = sf::seconds(10);
+    data[Projectile::LaserCannon].timeout = sf::seconds(4);
     data[Projectile::LaserCannon].scale = sf::Vector2f(0.3, 0.3);
 
     return data;
@@ -50,6 +50,12 @@ void Projectile::updateCurrent(sf::Time dt)
         timeout -= dt;
     else
         timeout = sf::Time::Zero;
+}
+
+//Should the projectile be removed?
+bool Projectile::toRemove()
+{
+    return timeout == sf::Time::Zero;
 }
 
 //Set the direction pof a projectile

@@ -28,6 +28,7 @@ class Projectile : public Entity
         Projectile(Type, TextureHolder&);
         
         void setDirection(sf::Vector2f);
+        virtual bool toRemove();
 
     private:
         sf::Sprite sprite;
