@@ -93,3 +93,9 @@ float Projectile::getDamage()
 {
     return damage;
 }
+
+//The maximum distance of the projectile
+float Projectile::getMaxDistance(Type type)
+{
+    return projectileData[type].speed*projectileData[type].timeout.asSeconds();
+}

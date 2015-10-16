@@ -88,6 +88,9 @@ bool Weapon::isTargetable(sf::Vector2f target)
     while(worldRotation > 360)
         worldRotation -= 360;
     sf::Vector2f direction = target - getWorldPosition();
+    float distance = sqrt(direction.x*direction.x+direction.y*direction.y);
+    if(distance > Projectile::getMaxDistance(projectileType))
+        return false;
     float angle = atan2(direction.y, direction.x)*180/3.1415+90;
     float diff = abs(angle-worldRotation);
     if(diff > 180)

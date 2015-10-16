@@ -30,7 +30,7 @@ class GameplayState : public GameState
         {
             P1Planning,
             P2Planning,
-            Resoultion,
+            Resolution,
             StateCount
         };
 

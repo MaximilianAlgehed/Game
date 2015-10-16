@@ -32,6 +32,7 @@ class Projectile : public Entity
         virtual sf::FloatRect getGlobalBounds() const;
         virtual void collide(SceneNode * other);
         float getDamage();
+        static float getMaxDistance(Type);
 
     private:
         sf::Sprite sprite;

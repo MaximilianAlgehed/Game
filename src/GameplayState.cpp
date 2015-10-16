@@ -17,7 +17,7 @@ void GameplayState::update(sf::Time dt)
 {
     while(!commandQueue.isEmpty())
         sceneGraph.onCommand(commandQueue.pop(), dt);
-    if(state == Resoultion)
+    if(state == Resolution)
     {
         //Check collisions
         checkCollisions();
@@ -51,7 +51,8 @@ void GameplayState::handleEvent(sf::Event event)
         if(event.key.code == sf::Keyboard::Space)
         {
             player.deselectSpaceship();
-            (++state) %= StateCount;
+            if(state != Resolution)
+                (++state) %= StateCount;
             clearTrajectories();
         }
     }
