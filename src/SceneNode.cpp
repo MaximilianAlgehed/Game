@@ -1,4 +1,7 @@
+#include <set>
+
 #include "SceneNode.h"
+#include "Command.h"
 
 //Initialize a new scene node
 SceneNode::SceneNode() : parent(NULL), category(Command::None)
@@ -108,7 +111,7 @@ sf::Vector2f SceneNode::getWorldPosition() const
 }
 
 //Get the global bounding rect of this object
-sf::FloatRect SceneNode::getGlobalBounds()
+sf::FloatRect SceneNode::getGlobalBounds() const
 {
     return sf::FloatRect(0, 0, 0, 0);
 }
@@ -163,4 +166,40 @@ void SceneNode::removeNodes()
     }
     for(auto ptr : children)
         ptr->removeNodes();
+}
+
+//Check if a scene node is colliding with another one
+bool colliding(SceneNode * obj, SceneNode * node)
+{
+    return obj->getGlobalBounds().intersects(node->getGlobalBounds());
+}
+
+//Get the category of a scene node
+unsigned int SceneNode::getCategory()
+{
+    return category;
+}
+
+//Collect collisions
+void SceneNode::checkCollision(SceneNode * other, std::set<std::pair<SceneNode*, SceneNode*>>& set)
+{
+    if(other != this && colliding(this, other))
+        set.insert(std::minmax(this, other));
+
+    for(int i = 0; i < children.size(); i++)
+        children[i]->checkCollision(other, set);
+}
+
+//Collect collisions globally
+void SceneNode::collectCollisions(SceneNode * graph, std::set<std::pair<SceneNode*, SceneNode*>>& set)
+{
+    checkCollision(graph, set);
+
+    for(int i = 0; i < graph->children.size(); i++)
+        collectCollisions(graph->children[i], set);
+}
+
+//Collide with another scene node
+void SceneNode::collide(SceneNode * other)
+{
 }

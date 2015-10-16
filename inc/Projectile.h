@@ -29,7 +29,9 @@ class Projectile : public Entity
         
         void setDirection(sf::Vector2f);
         virtual bool toRemove();
-        virtual sf::FloatRect getGlobalBounds();
+        virtual sf::FloatRect getGlobalBounds() const;
+        virtual void collide(SceneNode * other);
+        float getDamage();
 
     private:
         sf::Sprite sprite;

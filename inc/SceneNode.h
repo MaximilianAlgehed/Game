@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <vector>
+#include <set>
 
 #include "Command.h"
 
@@ -25,7 +26,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         //Get the global position of this object
         sf::Vector2f getWorldPosition() const;
         //Get the bounding rect of the entity
-        virtual sf::FloatRect getGlobalBounds();
+        virtual sf::FloatRect getGlobalBounds() const;
         //Get the global rotation of this object
         float getWorldRotation() const;
         //act on a command
@@ -36,6 +37,14 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         virtual bool toRemove();
         //Remove all objects that need to be removed
         void removeNodes();
+        //Collect collisions
+        void checkCollision(SceneNode *, std::set<std::pair<SceneNode*, SceneNode*>>&);
+        //Collect all collisions in the scene
+        void collectCollisions(SceneNode * graph, std::set<std::pair<SceneNode*, SceneNode*>>&);
+        //Collide with another scene node
+        virtual void collide(SceneNode * other);
+        //Get the category of the object
+        unsigned int getCategory();
 
     private:
         //Parent and children

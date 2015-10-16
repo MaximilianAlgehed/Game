@@ -19,6 +19,8 @@ void GameplayState::update(sf::Time dt)
         sceneGraph.onCommand(commandQueue.pop(), dt);
     if(!inWaiting)
     {
+        //Check collisions
+        checkCollisions();
         //Guide the weapons fire
         targetWeapons();
         //Update the scene
@@ -168,4 +170,17 @@ void GameplayState::collectSpaceships()
             this->teamTwoSpaceships.push_back(ship);
     };
     commandQueue.enqueue(command);
+}
+
+//Check collisions between scene nodes
+void GameplayState::checkCollisions()
+{
+    std::set<std::pair<SceneNode*, SceneNode*>> set;
+    sceneGraph.collectCollisions(&sceneGraph, set);
+
+    for(auto pair : set)
+    {
+        pair.first->collide(pair.second);
+        pair.second->collide(pair.first);
+    }
 }

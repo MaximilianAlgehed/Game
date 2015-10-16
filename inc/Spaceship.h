@@ -69,11 +69,13 @@ class Spaceship : public Entity
         //Stop displaying the trajectory
         void clearTrajectory(); 
         //The bounding rectangle of this object
-        virtual sf::FloatRect getGlobalBounds();
+        virtual sf::FloatRect getGlobalBounds() const;
         //Is thie object going to be removed
         virtual bool toRemove();
         //Do damage to this spaceship
         void doDamage(float);
+        //Collide with another object
+        virtual void collide(SceneNode*);
         
     //SceneNode methods
     protected:

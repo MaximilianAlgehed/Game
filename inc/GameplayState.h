@@ -68,6 +68,8 @@ class GameplayState : public GameState
         virtual void draw();
         virtual void handleInput();
 
+        void checkCollisions();
+
         std::vector<Spaceship*> teamOneSpaceships, teamTwoSpaceships;
 };
 

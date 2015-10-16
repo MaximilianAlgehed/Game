@@ -1,3 +1,4 @@
+#include "Spaceship.h"
 #include "Projectile.h"
 
 extern float abs(float);
@@ -39,6 +40,7 @@ Projectile::Projectile(Type type, TextureHolder& textureHolder) :
     speed(projectileData[type].speed), //The speed
     damage(projectileData[type].damage) //the damage
 {
+    category = Command::Projectile;
     setScale(projectileData[type].scale);
 }
 
@@ -72,7 +74,22 @@ void Projectile::drawCurrent(sf::RenderTarget & target, sf::RenderStates states)
 }
 
 //Get the global boudning rect of the projectile
-sf::FloatRect Projectile::getGlobalBounds()
+sf::FloatRect Projectile::getGlobalBounds() const
 {
-    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+    sf::FloatRect bounds = sprite.getGlobalBounds();
+    sf::FloatRect rect = getWorldTransform().transformRect(bounds);
+    return rect;
+}
+
+//Collide with another object
+void Projectile::collide(SceneNode * other)
+{
+    if(dynamic_cast<Spaceship*>(other) && ((Spaceship*)other)->getTeam() != getTeam())
+        timeout = sf::seconds(0);
+}
+
+//Get the damage of the projectile
+float Projectile::getDamage()
+{
+    return damage;
 }

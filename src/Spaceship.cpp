@@ -168,9 +168,11 @@ void Spaceship::calculateTrajectory(sf::Vector2f globalTarget, sf::Time dt, sf::
 }
 
 //Get the bounding rectangle of this object
-sf::FloatRect Spaceship::getGlobalBounds()
+sf::FloatRect Spaceship::getGlobalBounds() const
 {
-    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+    sf::FloatRect bounds = sprite.getGlobalBounds();
+    sf::FloatRect rect = getWorldTransform().transformRect(bounds);
+    return rect;
 }
 
 //Should this spaceship be removed?
@@ -183,4 +185,11 @@ bool Spaceship::toRemove()
 void Spaceship::doDamage(float damage)
 {
     hp -= damage;
+}
+
+//Collide with another object
+void Spaceship::collide(SceneNode * other)
+{
+    if(dynamic_cast<Projectile*>(other) && ((Entity*)other)->getTeam() != getTeam())
+        doDamage(((Projectile*)other)->getDamage());
 }

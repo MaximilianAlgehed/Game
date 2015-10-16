@@ -64,6 +64,7 @@ void Weapon::updateCurrent(sf::Time dt)
             Projectile * projectile = new Projectile(projectileType, textures);
             projectile->setPosition(getWorldPosition());
             projectile->setRotation(getWorldRotation());
+            projectile->setTeam(getTeam());
             sf::Vector2f direction = target-getWorldPosition();
             sf::Transform transform = sf::Transform::Identity;
             transform.rotate(float(rand())/float(RAND_MAX)*spreadAngle-spreadAngle/2);
