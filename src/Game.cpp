@@ -50,9 +50,6 @@ void Game::handleEvents()
         //Close the game
         if(event.type == sf::Event::Closed)
             stack.exit();
-        //Resize the window
-        else if(event.type == sf::Event::Resized)
-            window.setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
         //Handle the events in the stack
         else
             stack.handleEvent(event);

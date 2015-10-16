@@ -1,8 +1,7 @@
 #include "Player.h"
 
 //Initialize the player
-Player::Player(bool & inWaiting, SceneNode & sceneGraph) :
-    inWaiting(inWaiting),
+Player::Player(SceneNode & sceneGraph) :
     sceneGraph(sceneGraph),
     shipSelected(false)
 {
@@ -15,7 +14,7 @@ void Player::deselectSpaceship()
 }
 
 //Handle events from the window
-void Player::handleEvent(sf::Event event)
+void Player::handleEvent(sf::Event event, unsigned int state)
 {
     if(event.type == sf::Event::KeyPressed)
     {
@@ -32,19 +31,19 @@ void Player::handleEvent(sf::Event event)
         if(event.mouseButton.button == sf::Mouse::Left)
         {
             //Select a ship for moving around
-            if(!shipSelected && inWaiting)
+            if(!shipSelected && state < 2)
             {
                 SceneNode * node = NULL;
                 if(sceneGraph.isClicked(&node, event.mouseButton.x, event.mouseButton.y))
                 {
-                    if(dynamic_cast<Spaceship*>(node))
+                    if(dynamic_cast<Spaceship*>(node) && ((Spaceship*)node)->getTeam() == state+1)
                     {
                         selectedShip = (Spaceship*)node;
                         shipSelected = true;
                     }
                 }
             }
-            else if(shipSelected && inWaiting)
+            else if(shipSelected && state < 2)
                 selectedShip->calculateTrajectory(
                         sf::Vector2f(event.mouseButton.x, event.mouseButton.y),
                         sf::seconds(0.1),

@@ -25,6 +25,18 @@ class GameplayState : public GameState
             LayerCount
         };
 
+        //The possible states
+        enum State
+        {
+            P1Planning,
+            P2Planning,
+            Resoultion,
+            StateCount
+        };
+
+        //The state of the gameplay
+        unsigned int state = P1Planning;
+
         //The root node for the scene graph
         SceneNode sceneGraph;
         //Pointers for the layers, which lets us add objects to the
@@ -54,9 +66,12 @@ class GameplayState : public GameState
         //Internal command queue
         CommandQueue commandQueue;
 
-        //the spaceships that are within the 
+        //Handle spaceships
         void collectSpaceships();
         void targetWeapons();
+
+        //clear the trajectories of all spaceship
+        void clearTrajectories();
 
     public:
         //Initialize the state

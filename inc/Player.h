@@ -11,7 +11,6 @@ class Player
     private:
 
         //Information about the state of the game
-        bool & inWaiting;
         SceneNode & sceneGraph;
 
         //The selected ship
@@ -20,8 +19,8 @@ class Player
         bool shipSelected;
 
     public:
-        explicit Player(bool&, SceneNode&);
-        void handleEvent(sf::Event); 
+        explicit Player(SceneNode&);
+        void handleEvent(sf::Event, unsigned int state); 
         void handleInput();
         void deselectSpaceship();
 };

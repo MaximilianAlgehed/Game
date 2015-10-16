@@ -4,7 +4,7 @@
 #include "Projectile.h"
 
 //Initialize the gameplay
-GameplayState::GameplayState(GameStack * stack) : GameState(stack), shipSelected(false), inWaiting(true), player(inWaiting, sceneGraph)
+GameplayState::GameplayState(GameStack * stack) : GameState(stack), shipSelected(false), inWaiting(true), player(sceneGraph)
 {
     //Load resources
     loadResources(); 
@@ -17,7 +17,7 @@ void GameplayState::update(sf::Time dt)
 {
     while(!commandQueue.isEmpty())
         sceneGraph.onCommand(commandQueue.pop(), dt);
-    if(!inWaiting)
+    if(state == Resoultion)
     {
         //Check collisions
         checkCollisions();
@@ -29,7 +29,7 @@ void GameplayState::update(sf::Time dt)
         runningTime += dt;
         if(runningTime >= maxRunningTime)
         {
-            inWaiting = true;
+            state = P1Planning;
             runningTime = sf::Time::Zero;
         }
     }
@@ -45,23 +45,32 @@ void GameplayState::handleInput()
 //Handle events
 void GameplayState::handleEvent(sf::Event event)
 {
-    player.handleEvent(event);
+    player.handleEvent(event, state);
     if(event.type == sf::Event::KeyPressed)
     {
         if(event.key.code == sf::Keyboard::Space)
         {
             player.deselectSpaceship();
-            inWaiting = false;
-            Command cmd;
-            cmd.targetCategory = Command::Spaceship;
-            cmd.action = [] (SceneNode * node, sf::Time dt)
-            {
-                if(dynamic_cast<Spaceship*>(node))
-                    ((Spaceship*)node)->clearTrajectory();
-            };
-            commandQueue.enqueue(cmd);
+            (++state) %= StateCount;
+            clearTrajectories();
         }
     }
+    //Resize the window
+    else if(event.type == sf::Event::Resized)
+        view = sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height));
+}
+
+//Clear trajectories of all spaceships in the scene
+void GameplayState::clearTrajectories()
+{
+    Command cmd;
+    cmd.targetCategory = Command::Spaceship;
+    cmd.action = [] (SceneNode * node, sf::Time dt)
+    {
+        if(dynamic_cast<Spaceship*>(node))
+            ((Spaceship*)node)->clearTrajectory();
+    };
+    commandQueue.enqueue(cmd);
 }
 
 //Draw the scene
