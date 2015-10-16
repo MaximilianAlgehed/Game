@@ -107,6 +107,12 @@ sf::Vector2f SceneNode::getWorldPosition() const
     return getWorldTransform()*sf::Vector2f();
 }
 
+//Get the global bounding rect of this object
+sf::FloatRect SceneNode::getGlobalBounds()
+{
+    return sf::FloatRect(0, 0, 0, 0);
+}
+
 //Get the world rotation of this object
 float SceneNode::getWorldRotation() const
 {

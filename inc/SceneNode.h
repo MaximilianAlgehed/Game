@@ -24,6 +24,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable
         sf::Transform getWorldTransform() const;
         //Get the global position of this object
         sf::Vector2f getWorldPosition() const;
+        //Get the bounding rect of the entity
+        virtual sf::FloatRect getGlobalBounds();
         //Get the global rotation of this object
         float getWorldRotation() const;
         //act on a command

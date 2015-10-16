@@ -26,7 +26,7 @@ class Spaceship : public Entity
         struct SpaceshipData
         {
             Textures::ID textureID;
-            float deltaV, maxV;
+            float deltaV, maxV, hp;
             std::vector<Weapon::WeaponPrototype> weapons;
         };
 
@@ -57,6 +57,8 @@ class Spaceship : public Entity
         float maxV;
         //The break distance of the spaceship
         float breakDistance;
+        //The hitpoints of this spaceship
+        float hp;
 
     public:
 
@@ -66,7 +68,13 @@ class Spaceship : public Entity
         void calculateTrajectory(sf::Vector2f target, sf::Time dt, sf::Time maxTime);
         //Stop displaying the trajectory
         void clearTrajectory(); 
-
+        //The bounding rectangle of this object
+        virtual sf::FloatRect getGlobalBounds();
+        //Is thie object going to be removed
+        virtual bool toRemove();
+        //Do damage to this spaceship
+        void doDamage(float);
+        
     //SceneNode methods
     protected:
 

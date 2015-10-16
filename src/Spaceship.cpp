@@ -15,6 +15,7 @@ std::vector<Spaceship::SpaceshipData> initializeSpaceshipData()
     data[Spaceship::Destroyer].textureID = Textures::Destroyer;
     data[Spaceship::Destroyer].deltaV = 10;
     data[Spaceship::Destroyer].maxV = 40;
+    data[Spaceship::Destroyer].hp = 100;
     //Initialize the weapon prototypes
     data[Spaceship::Destroyer].weapons = std::vector<Weapon::WeaponPrototype>(2);
     data[Spaceship::Destroyer].weapons[0].type = Weapon::LaserCannon;
@@ -27,8 +28,9 @@ std::vector<Spaceship::SpaceshipData> initializeSpaceshipData()
 
     //The hunter class spaceship
     data[Spaceship::Hunter].textureID = Textures::Hunter;
-    data[Spaceship::Hunter].deltaV = 100;
+    data[Spaceship::Hunter].deltaV = 200;
     data[Spaceship::Hunter].maxV = 70;
+    data[Spaceship::Hunter].hp = 10;
     //Initialize the weapon prototypes
     data[Spaceship::Hunter].weapons = std::vector<Weapon::WeaponPrototype>(2);
     data[Spaceship::Hunter].weapons[0].type = Weapon::LaserBlaster;
@@ -54,17 +56,24 @@ Spaceship::Spaceship(Type type, ResourceHolder<sf::Texture, Textures::ID>& textu
     sprite(textureHolder.get(spaceshipData[type].textureID)), //Initilize the sprite
     deltaV(spaceshipData[type].deltaV), //Initialize the deltaV
     maxV(spaceshipData[type].maxV), //Initialize the maxV
-    foregroundLayer(foreground)
+    foregroundLayer(foreground), //Initialize the foregorund pointer
+    hp(spaceshipData[type].hp), //Initialize the hitpoints
+    trajectory(new Trajectory()),
+    id(maxId++)
 {
-    trajectory = new Trajectory();
+    //attach the trajectory in the scene graph
     attachChild(trajectory);
+
+    //Set the category
     category = Command::Spaceship;
+
     //Center the origin
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width/2.f, bounds.height/2.f);
+
     //Get the ID
-    id = maxId++;
     setTeam(team);
+
     //Add the weapons
     for(Weapon::WeaponPrototype prototype : spaceshipData[type].weapons)
     {
@@ -111,9 +120,9 @@ void Spaceship::updateCurrent(sf::Time dt)
     sf::Vector2f velocity = getVelocity();
     velocity += normalize((target-getWorldPosition()))*deltaV*dt.asSeconds();
     if(sqrt(velocity.x*velocity.x+velocity.y*velocity.y) > maxV)
-            velocity = normalize(velocity)*maxV;
+        velocity = normalize(velocity)*maxV;
     setVelocity(velocity);
-    if(velocity.x != 0 || velocity.y != 0)
+    if(velocity.x != 0||velocity.y != 0)
     {
         float rotation = atan2(velocity.y, velocity.x)*180/3.1415+90;
         while(rotation > 360)
@@ -129,6 +138,7 @@ bool Spaceship::clickedCurrent(float x, float y)
     return sprite.getGlobalBounds().contains(x-pos.x, y-pos.y);
 }
 
+//Clear the trajectory
 void Spaceship::clearTrajectory()
 {
     trajectory->clear();
@@ -155,4 +165,22 @@ void Spaceship::calculateTrajectory(sf::Vector2f globalTarget, sf::Time dt, sf::
         trajectory->add(getWorldPosition()+position);
         accumulatedTime += dt;
     }
+}
+
+//Get the bounding rectangle of this object
+sf::FloatRect Spaceship::getGlobalBounds()
+{
+    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+}
+
+//Should this spaceship be removed?
+bool Spaceship::toRemove()
+{
+    return hp <= 0;
+}
+
+//Deal damage to a spaceship
+void Spaceship::doDamage(float damage)
+{
+    hp -= damage;
 }

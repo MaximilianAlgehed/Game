@@ -70,3 +70,9 @@ void Projectile::drawCurrent(sf::RenderTarget & target, sf::RenderStates states)
 {
     target.draw(sprite, states);
 }
+
+//Get the global boudning rect of the projectile
+sf::FloatRect Projectile::getGlobalBounds()
+{
+    return getWorldTransform().transformRect(sprite.getGlobalBounds());
+}
