@@ -42,6 +42,10 @@ Projectile::Projectile(Type type, TextureHolder& textureHolder) :
 {
     category = Command::Projectile;
     setScale(projectileData[type].scale);
+
+    //Center the origin
+    sf::FloatRect bounds = sprite.getLocalBounds();
+    sprite.setOrigin(bounds.width/2.f, bounds.height/2.f);
 }
 
 //Update the projectile
@@ -76,7 +80,7 @@ void Projectile::drawCurrent(sf::RenderTarget & target, sf::RenderStates states)
 //Get the global boudning rect of the projectile
 sf::FloatRect Projectile::getGlobalBounds() const
 {
-    sf::FloatRect bounds = sprite.getGlobalBounds();
+    sf::FloatRect bounds = sf::FloatRect(0, 0, 1, 1);
     sf::FloatRect rect = getWorldTransform().transformRect(bounds);
     return rect;
 }
