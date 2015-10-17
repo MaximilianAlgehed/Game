@@ -10,6 +10,8 @@ class TextNodeTimed : public TextNode
 
         virtual bool toRemove(); 
 
+        void destroy();
+
     protected:
         sf::Time timeout;
 

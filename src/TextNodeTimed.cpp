@@ -18,3 +18,8 @@ void TextNodeTimed::updateCurrent(sf::Time dt)
     else
         timeout -= dt;
 }
+
+void TextNodeTimed::destroy()
+{
+    timeout = sf::Time::Zero;
+}

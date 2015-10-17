@@ -8,6 +8,7 @@
 #include "Spaceship.h"
 #include "Player.h"
 #include "Weapon.h"
+#include "TextNodeTimed.h"
 
 #include <array>
 
@@ -39,6 +40,8 @@ class GameplayState : public GameState
 
         //The root node for the scene graph
         SceneNode sceneGraph;
+        SceneNode HUDNode;
+        TextNodeTimed * playerText;
         //Pointers for the layers, which lets us add objects to the
         //right layer
         std::array<SceneNode*, LayerCount> sceneLayers;
@@ -65,6 +68,9 @@ class GameplayState : public GameState
 
         //clear the trajectories of all spaceship
         void clearTrajectories();
+
+        //Create the text in the middle of the screen
+        void nextState();
 
     public:
         //Initialize the state

@@ -2,9 +2,10 @@
 #include "Spaceship.h"
 #include "GameplayState.h"
 #include "Projectile.h"
+#include "TextNodeTimed.h"
 
 //Initialize the gameplay
-GameplayState::GameplayState(GameStack * stack) : GameState(stack), player(sceneGraph)
+GameplayState::GameplayState(GameStack * stack) : GameState(stack), player(sceneGraph), playerText(NULL), state(-1)
 {
     //Load resources
     loadResources(); 
@@ -29,10 +30,12 @@ void GameplayState::update(sf::Time dt)
         runningTime += dt;
         if(runningTime >= maxRunningTime)
         {
-            state = P1Planning;
+            nextState();
             runningTime = sf::Time::Zero;
         }
     }
+    HUDNode.update(dt);
+    HUDNode.removeNodes();
     sceneGraph.removeNodes();
 }
 
@@ -52,13 +55,31 @@ void GameplayState::handleEvent(sf::Event event)
         {
             player.deselectSpaceship();
             if(state != Resolution)
-                (++state) %= StateCount;
+            {
+                nextState();
+            }
             clearTrajectories();
         }
     }
     //Resize the window
     else if(event.type == sf::Event::Resized)
         view = sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height));
+}
+
+//Create the player text
+void GameplayState::nextState()
+{
+    (++state) %= StateCount;
+    if(state == Resolution)
+        return;
+    std::string text = state == P1Planning ? "Player 1" : "Player 2";
+    sf::Font font;
+    font.loadFromFile("Media/arial.ttf");
+    if(playerText)
+        playerText->destroy();
+    playerText = new TextNodeTimed(text, font, 30, sf::Color::Red, sf::seconds(1));
+    playerText->setPosition(100, 100);
+    HUDNode.attachChild(playerText);
 }
 
 //Clear trajectories of all spaceships in the scene
@@ -80,6 +101,7 @@ void GameplayState::draw()
     //Draw the scene
     window->setView(view);
     window->draw(sceneGraph);
+    window->draw(HUDNode);
 }
 
 //Construct the scene
@@ -113,6 +135,7 @@ void GameplayState::buildScene()
     ship->setPosition(700, 200);
     ship->rotate(90);
     sceneLayers[Foreground]->attachChild(ship);
+    nextState();
 }
 
 //Load up resources
