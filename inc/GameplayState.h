@@ -45,19 +45,12 @@ class GameplayState : public GameState
         //Resource holder for texures
         TextureHolder textureHolder;
 
-        //The state
-        bool inWaiting;
         //The time to play a scene
         sf::Time runningTime;
         const sf::Time maxRunningTime = sf::seconds(3);
 
         //The player
         Player player;
-
-        //The selected ship for moving
-        Spaceship * selectedShip;
-        //Is there a selected ship?
-        bool shipSelected;
 
         //Initialize the resources
         void loadResources();

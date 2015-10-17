@@ -4,7 +4,7 @@
 #include "Projectile.h"
 
 //Initialize the gameplay
-GameplayState::GameplayState(GameStack * stack) : GameState(stack), shipSelected(false), inWaiting(true), player(sceneGraph)
+GameplayState::GameplayState(GameStack * stack) : GameState(stack), player(sceneGraph)
 {
     //Load resources
     loadResources(); 
